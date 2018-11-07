@@ -1,4 +1,4 @@
-Weekly planner:
+## Weekly planner
 * LaTeX powered
 * rendered ready for printing and binding 
 * A6 final size
@@ -6,8 +6,11 @@ Weekly planner:
 * customizable font, color scheme and printing layout
 * automated build, just run ```make imposition.pdf```
 
-# Default printing method
-* print double sided on A4 paper (16 sheets total)
+![Timetable spread image](doc/timetable.png)
+![Week page spread image](doc/weekpage.png)
+
+## Default printing method
+* print ```imposition.pdf```, double sided on A4 paper (16 sheets total)
 * cut to A5 size
 * fold to A6 size
 * do perfect binding
