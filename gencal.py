@@ -1,5 +1,6 @@
 from calendar import Calendar
 import locale
+from config import CONF
 
 cal = Calendar()
 WEEKFILE = "weeks.tex"
@@ -8,15 +9,23 @@ DAYKEYS = ["a", "b", "c", "d", "e", "f", "g"]
 
 
 def get_month_names():
-    # is this defined behavior?
-    months = range(locale.MON_1, locale.MON_12 + 1)
+    abbr = CONF["Preferences"]["months_abbreviated"] == "True"
+    if abbr:
+        months = range(locale.ABMON_1, locale.ABMON_12 + 1)
+    else:
+        months = range(locale.MON_1, locale.MON_12 + 1)
+
     return [locale.nl_langinfo(x).lower() for x in months]
 
 
 def get_day_names():
     wrongweek = False
-    # is this defined behavior?
-    days = list(range(locale.DAY_1, locale.DAY_7 + 1))
+    abbr = CONF["Preferences"]["week_days_abbreviated"] == "True"
+    if abbr:
+        days = list(range(locale.ABDAY_1, locale.ABDAY_7 + 1))
+    else:
+        days = list(range(locale.DAY_1, locale.DAY_7 + 1))
+
     if not wrongweek:
         days = days[1:] + days[0:1]
 
@@ -30,6 +39,17 @@ def write_localisation():
             # \newcommand{\wkdaya}{mon}
             tex = r"\newcommand{\wkday" + key + "}{" + day + "}\n"
             locfile.write(tex)
+
+        locfile.write(
+            r"\newcommand{\firstlabel}{"
+            + CONF["Localisation"]["first_semester_label"]
+            + "}"
+        )
+        locfile.write(
+            r"\newcommand{\secondlabel}{"
+            + CONF["Localisation"]["second_semester_label"]
+            + "}"
+        )
 
 
 def printweek(week):
