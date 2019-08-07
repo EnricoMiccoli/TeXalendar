@@ -1,22 +1,35 @@
 from calendar import Calendar
+import locale
 
 cal = Calendar()
 WEEKFILE = "weeks.tex"
-DAYKEYS = ["da", "db", "dc", "dd", "de", "df", "dg"]
-MONTHNAMES = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]
+LOCFILE = "localisation.tex"
+DAYKEYS = ["a", "b", "c", "d", "e", "f", "g"]
+
+
+def get_month_names():
+    # is this defined behavior?
+    months = range(locale.MON_1, locale.MON_12 + 1)
+    return [locale.nl_langinfo(x).lower() for x in months]
+
+
+def get_day_names():
+    wrongweek = False
+    # is this defined behavior?
+    days = list(range(locale.DAY_1, locale.DAY_7 + 1))
+    if not wrongweek:
+        days = days[1:] + days[0:1]
+
+    return [locale.nl_langinfo(x) for x in days]
+
+
+def write_localisation():
+    weekdays = get_day_names()
+    with open(LOCFILE, "w") as locfile:
+        for day, key in zip(weekdays, DAYKEYS):
+            # \newcommand{\wkdaya}{mon}
+            tex = r"\newcommand{\wkday" + key + "}{" + day + "}\n"
+            locfile.write(tex)
 
 
 def printweek(week):
@@ -24,7 +37,7 @@ def printweek(week):
         attr = []
         for i in range(7):
             d = DAYKEYS[i]
-            attr.append("{}={}".format(d, week[d]))
+            attr.append("d{}={}".format(d, week[d]))
         for s in ["curmonth", "newmonth", "newday"]:
             attr.append("{}={}".format(s, week[s]))
         attr = ", ".join(attr)
@@ -32,7 +45,8 @@ def printweek(week):
 
 
 def numtoname(num):
-    return MONTHNAMES[(num - 1) % 12]
+    month_names = get_month_names()
+    return month_names[(num - 1) % 12]
 
 
 def printmonth(year, month, first=False):
@@ -71,5 +85,10 @@ def printweeks(year, firstmonth, lastmonth, first=False):
 
 if __name__ == "__main__":
     open(WEEKFILE, "w").close()  # clears WEEKFILE
+
+    locale.setlocale(locale.LC_ALL, "")
+    month_names = get_month_names()
+    write_localisation()
+
     printweeks(2018, 9, 12, first=True)
     printweeks(2019, 1, 9)

@@ -3,7 +3,9 @@
 weeks.tex: gencal.py
 	python3 gencal.py
 
-cal.pdf: calendar.cls cal.tex weeks.tex gencal.py
+localisation.tex: ;
+
+cal.pdf: calendar.cls cal.tex weeks.tex gencal.py localisation.tex
 	xelatex cal.tex
 
 halved.pdf: cal.pdf
@@ -21,4 +23,4 @@ imposition.pdf: padded.pdf imposer.tex inclusions.tex
 	mv imposer.pdf imposition.pdf
 
 clean:
-	rm -f *.aux *.log *.pdf weeks.tex inclusions.tex
+	rm -f *.aux *.log *.pdf weeks.tex inclusions.tex localisation.tex

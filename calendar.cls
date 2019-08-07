@@ -29,13 +29,7 @@
 %% WEEKPAGE 
 %%
 % Localisation
-\newcommand{\wkdaya}{mon}
-\newcommand{\wkdayb}{tue}
-\newcommand{\wkdayc}{wed}
-\newcommand{\wkdayd}{thu}
-\newcommand{\wkdaye}{fri}
-\newcommand{\wkdayf}{sat}
-\newcommand{\wkdayg}{sun}
+\input{localisation.tex}
 
 %% Weekpage dimensioning and styling
 \newcommand{\wkmnthwdth}{5mm}
