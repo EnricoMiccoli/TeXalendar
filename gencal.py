@@ -1,10 +1,13 @@
-from calendar import Calendar
 import locale
+from calendar import Calendar
+
 from config import CONF
+from geninclude import gen
 
 cal = Calendar()
 WEEKFILE = "weeks.tex"
 LOCFILE = "localisation.tex"
+SUPPORTFILE = "padder-support.tex"
 DAYKEYS = ["a", "b", "c", "d", "e", "f", "g"]
 
 
@@ -80,6 +83,7 @@ def printmonth(year, month, first=False):
         startweek = 1
     else:
         startweek = 0
+    n = 0
     for j in range(startweek, len(weeks)):
         curmonthnum = weeks[j][0].month
         curmonth = numtoname(curmonthnum)
@@ -95,12 +99,16 @@ def printmonth(year, month, first=False):
                 curweek["newmonth"] = numtoname(today.month)
                 curweek["newday"] = r + 1
         printweek(curweek)
+        n += 1
+    return n
 
 
 def printweeks(year, firstmonth, lastmonth, first=False):
-    printmonth(year, firstmonth, first)
+    n = printmonth(year, firstmonth, first)  # side-effects!
     for i in range(firstmonth + 1, lastmonth + 1):
-        printmonth(year, i)
+        n += printmonth(year, i)
+
+    return n
 
 
 if __name__ == "__main__":
@@ -110,5 +118,15 @@ if __name__ == "__main__":
     month_names = get_month_names()
     write_localisation()
 
-    printweeks(2018, 9, 12, first=True)
-    printweeks(2019, 1, 9)
+    year = int(CONF["Planner"]["first_year"])
+    wk = printweeks(year, 9, 12, first=True)
+    wk += printweeks(year + 1, 1, 9)
+
+    number_pages = 1 + 4 + wk * 2
+    padding = 8 - (number_pages % 8)
+    curly = ",".join(["{}"] * padding)
+    tex = r"\includepdf[pages={{},-," + curly + r"}]{halved.pdf}"
+    with open(SUPPORTFILE, "w") as sup:
+        sup.write(tex)
+
+    gen(number_pages + padding)
