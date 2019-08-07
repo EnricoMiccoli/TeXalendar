@@ -14,4 +14,6 @@ while i < pages:
 argument = ",".join(tmp)
 
 with open(OUTFILE, "w") as outfile:
-    outfile.write("\includepdf[pages={{{}}},nup=2x2]{{padded.pdf}}".format(argument))
+    outfile.write(
+        "\includepdf[pages={{{}}},nup=2x2]{{padded.pdf}}".format(argument)  # noqa W605
+    )

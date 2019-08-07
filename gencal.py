@@ -28,7 +28,7 @@ def printweek(week):
         for s in ["curmonth", "newmonth", "newday"]:
             attr.append("{}={}".format(s, week[s]))
         attr = ", ".join(attr)
-        outfile.write("\weekpage{{ {0} }}\n".format(attr))
+        outfile.write("\weekpage{{ {0} }}\n".format(attr))  # noqa: W605
 
 
 def numtoname(num):
