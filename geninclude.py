@@ -1,5 +1,3 @@
-import os
-
 OUTFILE = "inclusions.tex"
 open(OUTFILE, "w").close() # clears 
 seed = [4,1,8,5,2,3,6,7]

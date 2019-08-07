@@ -1,6 +1,4 @@
 from calendar import Calendar
-import sys
-import os
 
 cal = Calendar()
 WEEKFILE = "weeks.tex"
