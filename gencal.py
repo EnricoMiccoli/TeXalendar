@@ -4,7 +4,6 @@ import os
 
 cal = Calendar()
 WEEKFILE = "weeks.tex"
-open(WEEKFILE, "w").close() # clears WEEKFILE
 DAYKEYS = ["da","db","dc","dd","de","df","dg"]
 MONTHNAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -55,5 +54,6 @@ def printweeks(year, firstmonth, lastmonth, first=False):
         printmonth(year, i)
 
 if __name__ == "__main__":
+    open(WEEKFILE, "w").close() # clears WEEKFILE
     printweeks(2018, 9, 12, first=True)
     printweeks(2019, 1, 9)
