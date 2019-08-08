@@ -53,6 +53,9 @@ def write_localisation():
             + CONF["Localisation"]["second_semester_label"]
             + "}"
         )
+        font = CONF['Preferences']['font']
+        if font != 'default':
+            locfile.write(r'\setmainfont{' + font + '}')
 
 
 def printweek(week):

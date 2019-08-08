@@ -19,6 +19,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{calc}
 \RequirePackage{polyglossia}
+\RequirePackage{fontspec}
 
 %%
 %% DOCUMENT
