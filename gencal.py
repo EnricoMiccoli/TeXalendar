@@ -114,7 +114,10 @@ def printweeks(year, firstmonth, lastmonth, first=False):
 if __name__ == "__main__":
     open(WEEKFILE, "w").close()  # clears WEEKFILE
 
-    locale.setlocale(locale.LC_ALL, "")
+    if CONF["Localisation"]["language"] != "auto":
+        locale.setlocale(locale.LC_ALL, CONF["Localisation"]["language"])
+    else:
+        locale.setlocale(locale.LC_ALL, "")
     month_names = get_month_names()
     write_localisation()
 

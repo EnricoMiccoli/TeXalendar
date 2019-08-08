@@ -18,6 +18,7 @@
 \RequirePackage{keyval}
 \RequirePackage{xcolor}
 \RequirePackage{calc}
+\RequirePackage{polyglossia}
 
 %%
 %% DOCUMENT
