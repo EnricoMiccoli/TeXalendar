@@ -53,9 +53,15 @@ def write_localisation():
             + CONF["Localisation"]["second_semester_label"]
             + "}"
         )
-        font = CONF['Preferences']['font']
-        if font != 'default':
-            locfile.write(r'\setmainfont{' + font + '}')
+        font = CONF["Preferences"]["font"]
+        if font != "default":
+            locfile.write(r"\setmainfont{" + font + "}")
+
+
+def printtimetable():
+    with open(WEEKFILE, "a+") as outfile:
+        outfile.write(r"\timetable{\firstlabel}" + "\n")
+        outfile.write(r"\timetable{\secondlabel}" + "\n")
 
 
 def printweek(week):
@@ -124,11 +130,20 @@ if __name__ == "__main__":
     month_names = get_month_names()
     write_localisation()
 
-    year = int(CONF["Planner"]["first_year"])
-    wk = printweeks(year, 9, 12, first=True)
-    wk += printweeks(year + 1, 1, 9)
+    time_table = CONF["Planner"]["time_table"] == "True"
 
-    number_pages = 1 + 4 + wk * 2
+    if time_table:
+        printtimetable()
+
+    year = int(CONF["Planner"]["first_year"])
+
+    if CONF["Planner"]["year_format"] == "academic":
+        wk = printweeks(year, 9, 12, first=True)
+        wk += printweeks(year + 1, 1, 9)
+    else:
+        wk = printweeks(year, 1, 12, first=True)
+
+    number_pages = 1 + 4 * time_table + wk * 2
     padding = 8 - (number_pages % 8)
     curly = ",".join(["{}"] * padding)
     tex = r"\includepdf[pages={{},-," + curly + r"}]{halved.pdf}"
